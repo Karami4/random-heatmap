@@ -6,11 +6,11 @@ import java.util.Random;
 
 public class HeatMapPanel extends JPanel implements ActionListener {
 
-    private boolean isRunning = false;
-    private Timer timer;
-    private Random random;
-    private Pointer pointer;
-    private int[][] blockMatrix;
+    private boolean isRunning;
+    private final Timer timer;
+    private final Random random;
+    private final Pointer pointer;
+    private final int[][] blockMatrix;
 
     public HeatMapPanel() {
        timer = new Timer(Constants.TIMER_DELAY, this);
@@ -25,7 +25,7 @@ public class HeatMapPanel extends JPanel implements ActionListener {
 
         for (int i = 0; i < Constants.AMOUNT_OF_BLOCKS_X; i++) {
             for (int j = 0; j < Constants.AMOUNT_OF_BLOCKS_Y; j++) {
-                blockMatrix[i][j] = 0;
+                blockMatrix[i][j] = 255;
             }
         }
     }
@@ -36,10 +36,21 @@ public class HeatMapPanel extends JPanel implements ActionListener {
         if (isRunning) {
             int direction = random.nextInt(Direction.values().length);
             Direction directionEnum = Direction.values()[direction];
-            System.out.println("Direction: " + directionEnum);
+
+            int pointerX = pointer.getMatrixX();
+            int pointerY = pointer.getMatrixY();
+
+            if(pointer.movePosition(directionEnum)) {
+                if (blockMatrix[pointerX][pointerY] + Constants.INTENSITY_INCREMENT <= 255 &&
+                        blockMatrix[pointerX][pointerY] + Constants.INTENSITY_INCREMENT >= 0) {
+                    blockMatrix[pointerX][pointerY] = blockMatrix[pointerX][pointerY] + Constants.INTENSITY_INCREMENT;
+                }
+            } else {
+                isRunning = false;
+            }
 
         } else { // Update snake only if game is running
-            System.out.println("GAME OVER");
+            System.out.println("Program End");
             timer.stop();
         }
         repaint();
@@ -49,17 +60,6 @@ public class HeatMapPanel extends JPanel implements ActionListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         for (int i=0; i <= 20; i++) {
-            int verticalX = (Constants.ONE_BLOCK * i) + Constants.GRID_OFFSET;
-            int verticalY1 = Constants.GRID_OFFSET;
-            int verticalY2 = Constants.WINDOW_HEIGHT - Constants.GRID_OFFSET;
-
-            g.setColor(Color.WHITE);
-            g.drawLine(verticalX, verticalY1, verticalX, verticalY2); // Vertical lines
-
-            int horizontalX1 = Constants.GRID_OFFSET;
-            int horizontalX2 = Constants.WINDOW_WIDTH - Constants.GRID_OFFSET;
-            int horizontalY = (Constants.ONE_BLOCK * i) + Constants.GRID_OFFSET;
-            g.drawLine(horizontalX1, horizontalY, horizontalX2, horizontalY);
 
             for (int j = 0; j < Constants.AMOUNT_OF_BLOCKS_X; j++) {
                 for (int k = 0; k < Constants.AMOUNT_OF_BLOCKS_Y; k++) {
@@ -72,18 +72,5 @@ public class HeatMapPanel extends JPanel implements ActionListener {
             }
             pointer.draw(g);
         }
-    }
-
-    public void drawCenteredString(Graphics g, String text, Rectangle rect, Font font) {
-        // Get the FontMetrics
-        FontMetrics metrics = g.getFontMetrics(font);
-        // Determine the X coordinate for the text
-        int x = rect.x + (rect.width - metrics.stringWidth(text)) / 2;
-        // Determine the Y coordinate for the text (note we add the ascent, as in java 2d 0 is top of the screen)
-        int y = rect.y + ((rect.height - metrics.getHeight()) / 2) + metrics.getAscent();
-        // Set the font
-        g.setFont(font);
-        // Draw the String
-        g.drawString(text, x, y);
     }
 }
