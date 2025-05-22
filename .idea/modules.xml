@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HeatMap.iml" filepath="$PROJECT_DIR$/HeatMap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/random-heatmap.iml" filepath="$PROJECT_DIR$/.idea/random-heatmap.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+Main-Class: Main
+Implementation-Vendor: Karami4
+Implementation-Vendor-Id: me.karami4
+Implementation-URL: https://github.com/Karami4/random-heatmap
