@@ -3,7 +3,7 @@ This is a small simple program written in Java to create a randomly generated he
 
 ![A screenshot of the program running.](.docs/screenshot-full.png)
 You can run this program by either compiling it from source or download the pre-packaged JAR file.
-**To run this program, <ins>you will need Java 8 or above</ins>**.
+**To run this program, <ins>you need Java 8 or above</ins>**.
 
 ### Running the JAR File
 Make sure you have Java version equal to or above Java 8.
